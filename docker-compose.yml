@@ -21,15 +21,14 @@ services:
     env_file: ./env.minio
     restart: always
   outline:
-    image: outlinewiki/outline:latest
-    command: sh -c "yarn sequelize:migrate --env production-ssl-disabled && yarn start"
+    image: outlinewiki/outline:0.74.0
+    command: sh -c "yarn db:migrate --env production-ssl-disabled && yarn start"
     environment:
       - DATABASE_URL=postgres://user:pass@postgres:5432/outline
       - DATABASE_URL_TEST=postgres://user:pass@postgres:5432/outline-test
       - REDIS_URL=redis://redis:6379
     env_file:
       - ./env.outline
-      - ./env.slack
     restart: always
     depends_on:
       - postgres
